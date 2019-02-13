@@ -143,13 +143,13 @@ void construct_icmp4_header(
     struct ICMPHeader *icmp;
     int icmp_size;
 
-    if (net_state->platform.ip4_socket_raw) {
+    /*if (net_state->platform.ip4_socket_raw) {
         icmp = (struct ICMPHeader *) &packet_buffer[sizeof(struct IPHeader)];
         icmp_size = packet_size - sizeof(struct IPHeader);
-    } else {
+    } else {*/
         icmp = (struct ICMPHeader *) &packet_buffer[0];
         icmp_size = packet_size;
-    }
+    /*}*/
 
     memset(icmp, 0, sizeof(struct ICMPHeader));
 
@@ -234,13 +234,13 @@ void construct_udp4_header(
     struct UDPHeader *udp;
     int udp_size;
 
-    if (net_state->platform.ip4_socket_raw) {
+    /*if (net_state->platform.ip4_socket_raw) {
         udp = (struct UDPHeader *) &packet_buffer[sizeof(struct IPHeader)];
         udp_size = packet_size - sizeof(struct IPHeader);
-    } else {
+    } else {*/
         udp = (struct UDPHeader *) &packet_buffer[0];
         udp_size = packet_size;
-    }
+    /*}*/
 
     memset(udp, 0, sizeof(struct UDPHeader));
 
@@ -459,9 +459,9 @@ int compute_packet_size(
             packet_size += sizeof(struct IP6Header);
         }
     } else if (param->ip_version == 4) {
-        if (net_state->platform.ip4_socket_raw) {
+        /*if (net_state->platform.ip4_socket_raw) {
             packet_size += sizeof(struct IPHeader);
-        }
+        }*/
     } else {
         errno = EINVAL;
         return -1;
@@ -524,10 +524,10 @@ int construct_ip4_packet(
         is_stream_protocol = true;
 #endif
     } else {
-        if (net_state->platform.ip4_socket_raw) {
+        /*if (net_state->platform.ip4_socket_raw) {
             construct_ip4_header(net_state, packet_buffer, packet_size,
                                  src_sockaddr, dest_sockaddr, param);
-        }
+        }*/
         if (param->protocol == IPPROTO_ICMP) {
             construct_icmp4_header(net_state, sequence, packet_buffer,
                                    packet_size, param);

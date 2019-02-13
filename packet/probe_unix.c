@@ -107,6 +107,9 @@ int send_packet(
         return -1;
     }
 
+    setsockopt(send_socket, IPPROTO_IP, IP_TOS, &param->type_of_service, sizeof(param->type_of_service));
+    setsockopt(send_socket, IPPROTO_IP, IP_TTL, &param->ttl, sizeof(param->ttl));
+
     return sendto(send_socket, packet, packet_size, 0,
                   (struct sockaddr *) sockaddr, sockaddr_length);
 }
@@ -246,12 +249,14 @@ int open_ip4_sockets_raw(
        We will be including the IP header in transmitted packets.
        Linux doesn't require this, but BSD derived network stacks do.
      */
+    /*
     if (setsockopt
         (send_socket, IPPROTO_IP, IP_HDRINCL, &trueopt, sizeof(int))) {
 
         close(send_socket);
         return -1;
     }
+    */
 
     /*
        Open a second socket with IPPROTO_ICMP because we are only
